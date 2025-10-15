@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: parts-dept-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    depends_on:
+      - postgres
+      - redis
+      - qdrant
+    volumes:
+      - ../backend:/app/backend
+      - invoice-storage:/app/data/invoices
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: parts-dept-worker
+    command: celery -A backend.workers.celery_app worker --loglevel=info
+    env_file:
+      - ../.env
+    depends_on:
+      - postgres
+      - redis
+      - qdrant
+    volumes:
+      - ../backend:/app/backend
+      - invoice-storage:/app/data/invoices
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  beat:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: parts-dept-beat
+    command: celery -A backend.workers.celery_app beat --loglevel=info
+    env_file:
+      - ../.env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ../backend:/app/backend
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  flower:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: parts-dept-flower
+    command: celery -A backend.workers.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    env_file:
+      - ../.env
+    depends_on:
+      - redis
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: parts-dept-postgres
+    environment:
+      POSTGRES_USER: parts_dept
+      POSTGRES_PASSWORD: parts_dept_password
+      POSTGRES_DB: parts_dept
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: parts-dept-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: parts-dept-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks:
+      - parts-dept-network
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  qdrant-data:
+  invoice-storage:
+
+networks:
+  parts-dept-network:
+    driver: bridge
+
