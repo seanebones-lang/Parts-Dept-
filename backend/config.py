@@ -34,9 +34,10 @@ class Settings(BaseSettings):
     openai_api_key: Optional[str] = None
     mistral_api_key: Optional[str] = None
     
-    llama_model: str = "llama3.2:latest"
-    claude_model: str = "claude-3-5-sonnet-20241022"
-    mistral_model: str = "mistral-large-latest"
+    # LLM Models (October 2025 - Latest)
+    llama_model: str = "llama3.2:latest"  # Llama 3.2 is current as of Oct 2025
+    claude_model: str = "claude-3-5-sonnet-20241022"  # Claude 3.5 Sonnet (Oct 2024 version)
+    mistral_model: str = "mistral-large-2407"  # Mistral Large 24.07
     
     # Email
     imap_host: str

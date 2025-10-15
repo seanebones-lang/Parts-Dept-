@@ -4,19 +4,20 @@ Enterprise-grade RAG + Graph system for auto dealer operations with 7-10 locatio
 
 ## Architecture
 
-### Core Technologies
+### Core Technologies (October 2025 - Current Stack)
 
-- **Backend**: FastAPI (Python 3.11+)
-- **Graph Database**: Neo4j (cloud-native AuraDB)
-- **Vector Store**: Qdrant for RAG embeddings
-- **LLMs**: Multi-model routing
-  - Llama 3 (fast, local via Ollama)
-  - Claude (quality, complex reasoning)
-  - Mistral (balanced, cost-effective)
-- **Email**: IMAP/SMTP with background workers
-- **Task Queue**: Celery with Redis
-- **Relational DB**: PostgreSQL for orders/transactions
-- **Containerization**: Docker + Docker Compose
+- **Backend**: FastAPI 0.115+ (Python 3.11+)
+- **Graph Database**: Neo4j 5.26+ (cloud-native AuraDB)
+- **Vector Store**: Qdrant 1.12+ for RAG embeddings
+- **LLMs**: Multi-model routing (October 2025)
+  - Llama 3.2 (fast, local via Ollama 0.4+)
+  - Claude 3.5 Sonnet (best reasoning, Anthropic)
+  - Mistral Large 24.07 (balanced, cost-effective)
+- **Email**: IMAP/SMTP with async processing (aiosmtplib 3.0+)
+- **Task Queue**: Celery 5.4+ with Redis 7+
+- **Relational DB**: PostgreSQL 16+ with asyncpg 0.30+
+- **Containerization**: Docker 24+ / Docker Compose 2.23+
+- **Embeddings**: Sentence Transformers 3.3+ (all-MiniLM-L6-v2, BGE, GTE)
 
 ### System Features
 
