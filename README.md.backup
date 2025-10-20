@@ -1,16 +1,3 @@
-# ⚠️ PROPRIETARY SOFTWARE NOTICE
-
-**This is proprietary software owned by Sean McDonnell. All rights reserved.**
-
-- 🚫 **NOT open source**
-- 🚫 **NOT free software** 
-- ✅ **Evaluation permitted**
-- 🔒 **Commercial use requires license**
-
-For licensing inquiries: [www.bizbot.store](https://www.bizbot.store)
-
----
-
 # Parts Department System
 
 Enterprise-grade RAG + Graph system for auto dealer operations with 7-10 locations. Combines Neo4j graph database for inventory management with RAG (Retrieval Augmented Generation) for intelligent email routing, customer interaction, order processing, and invoice automation.
